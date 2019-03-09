@@ -11,6 +11,19 @@ int main(){
   bst to_add;
   compCon build;
 
+  char again = ' ';
+
+  while(again != 'n')
+  {
+    build.addNew();
+    cout << "Would you like to add another? ";
+    cin >> again;
+    cin.ignore(100,'\n');
+  }
+
+  build.display();
+
+
 
   return 0;
 

@@ -35,6 +35,7 @@ class compCon{
     int getKey(bst * to_add); // used to get numerical value for name
     int remove(bst * to_find); // used to find concept and remove
     int get_height(); // returns height of tree
+    int display(); // displays entire tree
 
     void addNew(); // allows grader to manually add info 
     
@@ -47,6 +48,7 @@ class compCon{
     int insert_p(bst *& root,bst * to_add); // recurses to end of bst and inserts new data
     int remove_p(bst *& root,bst * to_find); // recurses to desired data and deletes
     int get_height_p(bst * root); // recursively counts height
+    int display_all(bst * root);
 
     bst * root;
     int count = 0;

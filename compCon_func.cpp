@@ -5,6 +5,25 @@
 
 
 
+// wrapper for display all 
+int compCon::display(){
+
+  display_all(root);
+
+
+}
+// displays entire tree
+int compCon::display_all(bst * root){
+
+  if(!root) return -1;
+
+  else
+  {
+    display_all(root->left);
+    cout << "Name: " << root->name << endl;
+    display_all(root->right);
+  }
+}
 // for grader to use if they want to manually enter data
 void compCon::addNew(){
 
@@ -50,6 +69,7 @@ int compCon::insert_p(bst *& root,bst * to_add){
     root->name = to_add->name;
     root->key = getKey(to_add);
     root->left=root->right=NULL;
+    ++count;
     return 1;
   }
   else if(root->key > temp)
@@ -58,7 +78,7 @@ int compCon::insert_p(bst *& root,bst * to_add){
   else if(root->key <= temp);
     insert_p(root->right,to_add);
 
-    
+  return count;
 
 }
 bst::bst(){
