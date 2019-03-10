@@ -93,7 +93,7 @@ int compCon::remove_p(bst *& root, bst * to_find){
           root->right = right;
           cout << "right: " << root->right->name << endl;
 
-          delete prev;
+          delete temp;
 
           return 1;
         }
