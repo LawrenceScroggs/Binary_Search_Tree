@@ -74,26 +74,20 @@ int compCon::remove_p(bst *& root, bst * to_find){
         }
         else
         {
-          bst * temp = root;
           bst * prev = root;
-          bst * right = root->right;
-          bst * current = root->left;
+          bst * current = root->right;
           while(current->left)
           {
+            prev = current;
             current = current->left;
-            prev = prev->left;
-
           }
+          root->name = current->name;
           prev->left = current->right;
-          cout << "left: " << prev->left->name << endl;
-          root = current;
-          cout << "current: " << root->name << endl;
-          root->left = prev;
+          cout << "root : " << root->name << endl;
           cout << "root left: " << root->left->name << endl;
-          root->right = right;
           cout << "right: " << root->right->name << endl;
 
-          delete temp;
+          delete current;
 
           return 1;
         }
