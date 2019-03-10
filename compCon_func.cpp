@@ -5,6 +5,108 @@
 
 
 
+// wrapper function to remove
+int compCon::remove(bst * to_find){
+
+  int check = 0;
+
+  to_find->name = new char[100];
+  cout << "Please enter the concept you are looking to remove: ";
+  cin.get(to_find->name,100);
+  cin.ignore(100,'\n');
+  to_find->key = getKey(to_find);
+
+  check = remove_p(root,to_find);
+
+  return check;
+
+  delete to_find->name;
+}
+// remove function
+int compCon::remove_p(bst *& root, bst * to_find){
+
+  if(!root) return 0;
+
+  if(root->key > to_find->key)
+    return remove_p(root->left,to_find);
+
+  else if(root->key < to_find->key)
+    return remove_p(root->right,to_find);
+
+  else //found a match
+  {
+    cout << "match" << endl;
+    if(strcmp(root->name,to_find->name) == 0)
+    {
+      if(!root->left && !root->right) // at leaf
+      {
+        delete root;
+        root = NULL;
+      }
+      else if(!root->left) // if left is null
+      {
+        bst * temp = root;
+        root = root->right;
+        delete temp;
+      }
+      else if(!root->right) // if right is null
+      {
+        bst * temp = root;
+        root = root->left;
+        delete temp;
+      }
+      else
+      {
+        if(!root->right->left)
+        {
+          bst * temp = root;
+          bst * current = root->right;
+          root = current;
+
+          delete temp;
+        }
+        else
+        {
+          bst * prev = root;
+          bst * current = root->left;
+          while(current->left)
+          {
+            current = current->left;
+            prev = prev->left;
+          }
+          root = current;
+          prev->left = current->right;
+          delete current;
+        }
+      }
+
+    }
+    else
+      return remove_p(root->right,to_find); //if the key matchs but not the names
+  }
+}
+// wrapper for get heigth p
+int compCon::get_height(){
+
+  int height = get_height_p(root);
+
+  return height;
+}
+// recursive function to get the height of tree
+int compCon::get_height_p(bst * root){
+
+  if(!root) return 0;
+
+  else
+  {
+    int left = get_height_p(root->left);
+    int right = get_height_p(root->right);
+    if(left > right)
+      return left+1;
+    else
+      return right+1;
+  }
+}
 // wrapper for display all 
 int compCon::display(){
 
@@ -72,6 +174,7 @@ int compCon::insert_p(bst *& root,bst * to_add){
     root->left=root->right=NULL;
     ++count;
     return count;
+  }
   
   else if(root->key > to_add->key)
     return insert_p(root->left,to_add);
