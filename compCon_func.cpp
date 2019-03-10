@@ -45,12 +45,15 @@ int compCon::remove_p(bst *& root, bst * to_find){
       }
       else if(!root->left) // if left is null
       {
+        cout << "test 1" << endl;
         bst * temp = root;
         root = root->right;
         delete temp;
       }
       else if(!root->right) // if right is null
       {
+        cout << "test 2" << endl;
+        
         bst * temp = root;
         root = root->left;
         delete temp;
@@ -59,24 +62,40 @@ int compCon::remove_p(bst *& root, bst * to_find){
       {
         if(!root->right->left)
         {
+          cout << "test 3" << endl;
           bst * temp = root;
           bst * current = root->right;
           root = current;
+          root->left = temp->left;
 
           delete temp;
+
+          return 1;
         }
         else
         {
+          bst * temp = root;
           bst * prev = root;
+          bst * right = root->right;
           bst * current = root->left;
           while(current->left)
           {
             current = current->left;
             prev = prev->left;
+
           }
-          root = current;
           prev->left = current->right;
-          delete current;
+          cout << "left: " << prev->left->name << endl;
+          root = current;
+          cout << "current: " << root->name << endl;
+          root->left = prev;
+          cout << "root left: " << root->left->name << endl;
+          root->right = right;
+          cout << "right: " << root->right->name << endl;
+
+          delete prev;
+
+          return 1;
         }
       }
 
@@ -177,10 +196,16 @@ int compCon::insert_p(bst *& root,bst * to_add){
   }
   
   else if(root->key > to_add->key)
+  {
+    cout << "left: " << endl;
     return insert_p(root->left,to_add);
+  }
 
   else
+  {
+    cout << "right: " << endl;
     return insert_p(root->right,to_add);
+  }
 
   return count;
 
