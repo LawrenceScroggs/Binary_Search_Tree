@@ -37,7 +37,7 @@ class compCon{
     int get_height(); // returns height of tree
     int display(); // displays entire tree
 
-    void addNew(); // allows grader to manually add info 
+    void addNew(bst * to_add); // allows grader to manually add info 
     
     bool is_efficient(bst * root); // tests bst for efficiency
 

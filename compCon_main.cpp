@@ -15,7 +15,7 @@ int main(){
 
   while(again != 'n')
   {
-    build.addNew();
+    build.addNew(&to_add);
     cout << "Would you like to add another? ";
     cin >> again;
     cin.ignore(100,'\n');
