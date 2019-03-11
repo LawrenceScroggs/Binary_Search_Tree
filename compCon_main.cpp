@@ -42,6 +42,8 @@ int main(){
   else if(efficient != true)
     cout << "Tree is inefficient" << endl;
 
+  build.display_range();
+
 
   return 0;
 

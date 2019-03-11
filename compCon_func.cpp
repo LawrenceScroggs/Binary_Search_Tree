@@ -5,6 +5,45 @@
 
 
 
+
+// wrapper for display range
+int compCon::display_range(){
+
+  char var1 = ' ';
+  char var2 = ' ';
+  cout << "Please enter the range you are looking to display. ex.(a-m)" << endl;
+  cout << "Enter first character: ";
+  cin >> var1;
+  cin.ignore(100,'\n');
+  cout << "Enter second character: ";
+  cin >> var2;
+  cin.ignore(100,'\n');
+
+  display_range_p(root,var1,var2);
+
+}
+int compCon::display_range_p(bst * root,char var1,char var2){
+
+  if(!root) return 0;
+
+
+  else
+  {
+    if(root->name[0] >= var1 && root->name[0] <= var2)
+    {
+      display_range_p(root->left,var1,var2);
+      cout << "Name: " << root->name << endl;
+      cout << "Description: " << root->descrip << endl;
+      cout << "Relationship: " << root->relation << endl << endl;
+      display_range_p(root->right,var1,var2);
+    }
+    else
+    {
+      display_range_p(root->left,var1,var2);
+      display_range_p(root->right,var1,var2);
+    }
+  }
+}
 // wrapper for is_efficient
 bool compCon::efficient(){
 
@@ -17,35 +56,18 @@ bool compCon::is_efficient(bst * root){
 
   if(!root) return false;
 
-  int left = is_efficient(root->left) +1;
-  int right = is_efficient(root->right) +1;
+  sum = 0;
 
-  int sum = left - right;
+  int height = get_height();
 
-  cout << "Left: " << left << endl;
-  cout << "Right: " << right << endl;
-  cout << "Sum: " << sum << endl;
 
+  int countNodes = count_nodes(root);
   if(sum < -1 || sum > 1)
     return false;
 
-  else if(sum == -1 || sum == 0)
+  else
   {
-    int countNodes = (is_efficient(root->left) + is_efficient(root->right) + 1);
-    int efficient = (pow(2,left) - 1);
-    cout << "Efficient: " << efficient << endl;
-    cout << "Nodes: " << countNodes << endl;
-    if(countNodes > efficient)
-      return true;
-    else
-      return false;
-  }
-  else if(sum == 1)
-  {
-    int countNodes = (is_efficient(root->left) + is_efficient(root->right) + 1);
-    int efficient = (pow(2,right) - 1);
-    cout << "Efficient: " << efficient << endl;
-    cout << "Nodes: " << countNodes << endl;
+    int efficient = (pow(2,(height - 1)) - 1);
     if(countNodes > efficient)
       return true;
     else
@@ -53,6 +75,13 @@ bool compCon::is_efficient(bst * root){
   }
 
 
+}
+// counts nodes to measure efficiency
+int compCon::count_nodes(bst * root){
+  
+  if(!root) return 0;
+
+  return(count_nodes(root->left) + count_nodes(root->right) + 1);
 }
 // wrapper function to remove
 int compCon::remove(bst * to_find){
@@ -66,6 +95,12 @@ int compCon::remove(bst * to_find){
   to_find->key = getKey(to_find);
 
   check = remove_p(root,to_find);
+
+  if(check == 0)
+    cout << "No match found" << endl << endl;
+
+  else
+    cout << "Removed succesfully" << endl << endl;
 
   return check;
 
@@ -84,7 +119,6 @@ int compCon::remove_p(bst *& root, bst * to_find){
 
   else //found a match
   {
-    cout << "match" << endl;
     if(strcmp(root->name,to_find->name) == 0)
     {
       if(!root->left && !root->right) // at leaf
@@ -95,7 +129,6 @@ int compCon::remove_p(bst *& root, bst * to_find){
       }
       else if(!root->left) // if left is null
       {
-        cout << "test 1" << endl;
         bst * temp = root;
         root = root->right;
         delete temp;
@@ -104,8 +137,6 @@ int compCon::remove_p(bst *& root, bst * to_find){
       }
       else if(!root->right) // if right is null
       {
-        cout << "test 2" << endl;
-        
         bst * temp = root;
         root = root->left;
         delete temp;
@@ -116,7 +147,6 @@ int compCon::remove_p(bst *& root, bst * to_find){
       {
         if(!root->right->left)
         {
-          cout << "test 3" << endl;
           bst * temp = root;
           bst * current = root->right;
           root = current;
@@ -152,23 +182,30 @@ int compCon::remove_p(bst *& root, bst * to_find){
 // wrapper for get heigth p
 int compCon::get_height(){
 
-  int height = get_height_p(root);
+  int height = get_height_p(root,sum);
 
   return height;
 }
 // recursive function to get the height of tree
-int compCon::get_height_p(bst * root){
+int compCon::get_height_p(bst * root,int & sum){
 
   if(!root) return 0;
 
   else
   {
-    int left = get_height_p(root->left);
-    int right = get_height_p(root->right);
+    int left = get_height_p(root->left,sum);
+    int right = get_height_p(root->right,sum);
     if(left > right)
+    {
+      sum = ((left +1) - (right+1)); // used for balance efficiency
       return left+1;
+    }
     else
+    {
+      sum = ((left +1) - (right+1)); 
       return right+1;
+    }
+
   }
 }
 // wrapper for display all 
@@ -189,6 +226,8 @@ int compCon::display_all(bst * root){
   {
     display_all(root->left);
     cout << "Name: " << root->name << endl;
+    cout << "Description: " << root->descrip << endl;
+    cout << "Relationship: " << root->relation << endl << endl;
     display_all(root->right);
   }
 }
@@ -197,14 +236,24 @@ void compCon::addNew(bst * to_add){
 
 
   to_add->name = new char[100];
-  cout << "Please enter the concept you are looking to add. ";
+  cout << "Please enter the computer science concept/term you are looking to add: ";
   cin.get(to_add->name,100);
+  cin.ignore(100,'\n');
+  to_add->descrip = new char[500];
+  cout << "Please enter the description of concept/term: ";
+  cin.get(to_add->descrip,500);
+  cin.ignore(500,'\n');
+  to_add->relation = new char[100];
+  cout << "Please enter the data structure it is related to: ";
+  cin.get(to_add->relation,100);
   cin.ignore(100,'\n');
   to_add->key = getKey(to_add);
 
   insert(to_add);
 
   delete to_add->name;
+  delete to_add->descrip;
+  delete to_add->relation;
 
   return;
 }
@@ -234,6 +283,10 @@ int compCon::insert_p(bst *& root,bst * to_add){
     root = new bst;
     root->name = new char[strlen(to_add->name)+1];
     strcpy(root->name,to_add->name);
+    root->descrip = new char[strlen(to_add->descrip)+1];
+    strcpy(root->descrip,to_add->descrip);
+    root->relation = new char[strlen(to_add->relation)+1];
+    strcpy(root->relation,to_add->relation);
     root->key = getKey(to_add);
     root->left=root->right=NULL;
     ++count;
@@ -262,10 +315,12 @@ bst::bst(){
 }
 bst::~bst(){
 
+  delete name;
+  delete descrip;
+  delete relation;
 
 }
 compCon::compCon(){
-
 
   root = NULL;
 

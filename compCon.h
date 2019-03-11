@@ -37,6 +37,7 @@ class compCon{
     int remove(bst * to_find); // used to find concept and remove
     int get_height(); // returns height of tree
     int display(); // displays entire tree
+    int display_range(); // displays range of letters
 
     bool efficient(); // check for efficiency
 
@@ -49,13 +50,15 @@ class compCon{
 
     int insert_p(bst *& root,bst * to_add); // recurses to end of bst and inserts new data
     int remove_p(bst *& root,bst * to_find); // recurses to desired data and deletes
-    int get_height_p(bst * root); // recursively counts height
+    int get_height_p(bst * root,int & sum); // recursively counts height
     int display_all(bst * root);
-    int getLR(bst * root,int left,int right);
+    int count_nodes(bst * root);
+    int display_range_p(bst * root,char var1, char var2);
 
     bool is_efficient(bst * root); // tests bst for efficiency
 
     bst * root;
     int count = 0;
+    int sum = 0;
 
 };
