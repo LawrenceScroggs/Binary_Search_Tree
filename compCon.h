@@ -5,6 +5,7 @@
 #include <cstring>
 #include <cctype>
 #include <fstream>
+#include <cmath>
 
 using namespace std;
 
@@ -37,9 +38,10 @@ class compCon{
     int get_height(); // returns height of tree
     int display(); // displays entire tree
 
+    bool efficient(); // check for efficiency
+
     void addNew(bst * to_add); // allows grader to manually add info 
     
-    bool is_efficient(bst * root); // tests bst for efficiency
 
 
 
@@ -49,6 +51,9 @@ class compCon{
     int remove_p(bst *& root,bst * to_find); // recurses to desired data and deletes
     int get_height_p(bst * root); // recursively counts height
     int display_all(bst * root);
+    int getLR(bst * root,int left,int right);
+
+    bool is_efficient(bst * root); // tests bst for efficiency
 
     bst * root;
     int count = 0;

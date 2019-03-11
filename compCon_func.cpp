@@ -5,11 +5,52 @@
 
 
 
+// wrapper for is_efficient
+bool compCon::efficient(){
+
+  bool check = is_efficient(root);
+
+  return check;
+}
 // function to check efficiency
 bool compCon::is_efficient(bst * root){
 
+  if(!root) return false;
 
+  int left = is_efficient(root->left) +1;
+  int right = is_efficient(root->right) +1;
 
+  int sum = left - right;
+
+  cout << "Left: " << left << endl;
+  cout << "Right: " << right << endl;
+  cout << "Sum: " << sum << endl;
+
+  if(sum < -1 || sum > 1)
+    return false;
+
+  else if(sum == -1 || sum == 0)
+  {
+    int countNodes = (is_efficient(root->left) + is_efficient(root->right) + 1);
+    int efficient = (pow(2,left) - 1);
+    cout << "Efficient: " << efficient << endl;
+    cout << "Nodes: " << countNodes << endl;
+    if(countNodes > efficient)
+      return true;
+    else
+      return false;
+  }
+  else if(sum == 1)
+  {
+    int countNodes = (is_efficient(root->left) + is_efficient(root->right) + 1);
+    int efficient = (pow(2,right) - 1);
+    cout << "Efficient: " << efficient << endl;
+    cout << "Nodes: " << countNodes << endl;
+    if(countNodes > efficient)
+      return true;
+    else
+      return false;
+  }
 
 
 }
@@ -96,9 +137,6 @@ int compCon::remove_p(bst *& root, bst * to_find){
           }
           root->name = current->name;
           prev->left = current->right;
-          cout << "root : " << root->name << endl;
-          cout << "root left: " << root->left->name << endl;
-          cout << "right: " << root->right->name << endl;
 
           delete current;
 
@@ -204,13 +242,11 @@ int compCon::insert_p(bst *& root,bst * to_add){
   
   else if(root->key > to_add->key)
   {
-    cout << "left: " << endl;
     return insert_p(root->left,to_add);
   }
 
   else
   {
-    cout << "right: " << endl;
     return insert_p(root->right,to_add);
   }
 

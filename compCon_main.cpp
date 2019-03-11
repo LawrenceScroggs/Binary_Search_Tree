@@ -13,6 +13,8 @@ int main(){
 
   int height = 0;
 
+  bool efficient = false;
+
   char again = ' ';
 
   while(again != 'n')
@@ -33,7 +35,12 @@ int main(){
 
   build.display();
 
+  efficient = build.efficient();
 
+  if(efficient == true)
+    cout << "Tree is efficient" << endl;
+  else if(efficient != true)
+    cout << "Tree is inefficient" << endl;
 
 
   return 0;
