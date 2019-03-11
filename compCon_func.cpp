@@ -5,6 +5,14 @@
 
 
 
+// function to check efficiency
+bool compCon::is_efficient(bst * root){
+
+
+
+
+
+}
 // wrapper function to remove
 int compCon::remove(bst * to_find){
 
@@ -42,6 +50,7 @@ int compCon::remove_p(bst *& root, bst * to_find){
       {
         delete root;
         root = NULL;
+        return 1;
       }
       else if(!root->left) // if left is null
       {
@@ -49,6 +58,8 @@ int compCon::remove_p(bst *& root, bst * to_find){
         bst * temp = root;
         root = root->right;
         delete temp;
+
+        return 1;
       }
       else if(!root->right) // if right is null
       {
@@ -57,8 +68,10 @@ int compCon::remove_p(bst *& root, bst * to_find){
         bst * temp = root;
         root = root->left;
         delete temp;
+
+        return 1;
       }
-      else
+      else // if match has to children
       {
         if(!root->right->left)
         {
