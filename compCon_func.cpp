@@ -103,6 +103,8 @@ int compCon::remove(bst * to_find){
   else
     cout << "Removed succesfully" << endl << endl;
 
+  delete to_find->name;
+  to_find->name = NULL;
   return check;
 
 }
@@ -251,9 +253,12 @@ void compCon::addNew(bst * to_add){
 
   insert(to_add);
 
-  delete [] to_add->name;
-  delete [] to_add->descrip;
-  delete [] to_add->relation;
+  delete to_add->name;
+  to_add->name = NULL;
+  delete to_add->descrip;
+  to_add->descrip = NULL;
+  delete to_add->relation;
+  to_add->relation = NULL;
 
   return;
 }
@@ -290,6 +295,7 @@ int compCon::insert_p(bst *& root,bst * to_add){
     root->key = getKey(to_add);
     root->left=root->right=NULL;
     ++count;
+    to_add = NULL;
     return count;
   }
   
@@ -345,9 +351,7 @@ int compCon::delete_all(bst *& root){
   }
   value = delete_all(root->left) + delete_all(root->right);
   delete root;
-  root->name = NULL;
-  root->descrip = NULL;
-  root->relation = NULL;
+  root = NULL;
 }
 //reads from file
 int compCon::file_in(bst * to_add){
@@ -381,9 +385,12 @@ int compCon::file_in(bst * to_add){
 
       insert(to_add);
 
-      delete [] to_add->name;
-      delete [] to_add->relation;
-      delete [] to_add->descrip;
+      delete to_add->name;
+      to_add->name = NULL;
+      delete to_add->relation;
+      to_add->relation = NULL;
+      delete to_add->descrip;
+      to_add->descrip = NULL;
     }
 
   file_in.clear();
