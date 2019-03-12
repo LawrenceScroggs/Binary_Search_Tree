@@ -22,6 +22,7 @@ int compCon::display_range(){
   display_range_p(root,var1,var2);
 
 }
+//recursively displays range
 int compCon::display_range_p(bst * root,char var1,char var2){
 
   if(!root) return 0;
@@ -29,7 +30,7 @@ int compCon::display_range_p(bst * root,char var1,char var2){
 
   else
   {
-    if(root->name[0] >= var1 && root->name[0] <= var2)
+    if(root->name[0] >= var1 && root->name[0] <= var2) // if in range
     {
       display_range_p(root->left,var1,var2);
       cout << "Name: " << root->name << endl;
@@ -62,7 +63,7 @@ bool compCon::is_efficient(bst * root){
 
 
   int countNodes = count_nodes(root);
-  if(sum < -1 || sum > 1)
+  if(sum < -1 || sum > 1) // if the balance of tree is within -1 and 1
     return false;
 
   else
@@ -104,7 +105,6 @@ int compCon::remove(bst * to_find){
 
   return check;
 
-  delete to_find->name;
 }
 // remove function
 int compCon::remove_p(bst *& root, bst * to_find){
@@ -251,21 +251,21 @@ void compCon::addNew(bst * to_add){
 
   insert(to_add);
 
-  delete to_add->name;
-  delete to_add->descrip;
-  delete to_add->relation;
+  delete [] to_add->name;
+  delete [] to_add->descrip;
+  delete [] to_add->relation;
 
   return;
 }
 // get key
 int compCon::getKey(bst * to_add){
 
-  int sum = 0;
+  int key = 0;
 
-  sum = to_add->name[0];
+  key = to_add->name[0];
 
 
-  return sum;
+  return key;
 
 }
 // wrapper insert
@@ -302,9 +302,7 @@ int compCon::insert_p(bst *& root,bst * to_add){
   {
     return insert_p(root->right,to_add);
   }
-
   return count;
-
 }
 bst::bst(){
 
@@ -316,17 +314,79 @@ bst::bst(){
 bst::~bst(){
 
   delete name;
+  name = NULL;
   delete descrip;
+  descrip = NULL;
   delete relation;
+  relation = NULL;
 
 }
 compCon::compCon(){
 
   root = NULL;
 
+  bst * to_add;
+
+  file_in(to_add);
+
 }
 compCon::~compCon(){
 
+  delete_all(root);
 
+}
+// delete for destructor
+int compCon::delete_all(bst *& root){
 
+  int value = 0;
+  if(!root){
+  
+    return 0;
+  }
+  value = delete_all(root->left) + delete_all(root->right);
+  delete root;
+  root->name = NULL;
+  root->descrip = NULL;
+  root->relation = NULL;
+}
+//reads from file
+int compCon::file_in(bst * to_add){
+  
+  ifstream file_in;
+  file_in.open("BST.txt");
+
+  if(file_in){
+
+    if(file_in.peek() == -1) return -1;
+
+    while(file_in && !file_in.eof()){
+
+      if(file_in.peek() == -1){
+        
+        file_in.clear();
+        file_in.close();
+        return -1;
+      }
+
+      to_add->name = new char[100];
+      file_in.get(to_add->name,100,'@');
+      file_in.ignore(100,'@');
+      to_add->descrip = new char[500];
+      file_in.get(to_add->descrip,500,'@');
+      file_in.ignore(500,'@');
+      to_add->relation = new char[100];
+      file_in.get(to_add->relation,100,'\n');
+      file_in.ignore(100,'\n');
+      to_add->key = getKey(to_add);
+
+      insert(to_add);
+
+      delete [] to_add->name;
+      delete [] to_add->relation;
+      delete [] to_add->descrip;
+    }
+
+  file_in.clear();
+  file_in.close();
+  }
 }

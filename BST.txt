@@ -1,1 +1,36 @@
-stuff
+enqueue@when you enter into a CLL@CLL
+dequeue@when you remove from a CLL@CLL
+hash function@a function used to make a key for hash table@hash tables
+parent@the value above child nodes@trees
+child@the value/s below the parent node@trees
+recursion@using a function to call itself@all data types
+balanced tree@a tree that has same height on both left and right@trees
+full tree@a tree that has appropriate children to parent ratio@trees
+push@when you insert information into a stack@LLL
+pop@when you remove information from a stack@LLL
+hash table@an array used to store data@tables
+peek@used to see the top of stack or first in queue@LLL
+big O@the efficiency of algorithm@all data types
+2-3 tree@a balanced tree that uses 1 - 2 data types@tree
+depth@the height of the tree@tree
+in order succesor@the next value needed to replace node@tree
+adjacency matrix@table which connects edges to other indexes of adjacency matrix@graphs
+complete graph@where every edge is connected@graphs
+edge@line connecting two nodes in graph@graphs
+hash key@the value returned from the hash function@hash table
+vertex@used to store data in adt@graphs
+stack@data type that pushes info into LLL@LLL
+queue@data type that is first in first out usually a CLL@LLL
+root@top of a tree@trees
+level@the section of the tree you are in@tree
+sub tree@a set of a tree connected to the larger tree@tree
+red and black@terms used for nodes in r and b tree@trees
+shifting@term used when moving and splitting data in trees@tree
+bubble sort@sorting algorithm usually iterative@sorting
+heap sort@an iterative sorting algorithm@sorting
+perfect hash@when your hash function has 0 collisions@hash table
+collision@when your hash function has collisions@hash table
+linear probing@collision technique@hash table
+spanning tree@connected tree of the graphs paths@graph
+weight@a path's lenght in graph@graph
+max heap@a heap whose root is largest in tree@tree

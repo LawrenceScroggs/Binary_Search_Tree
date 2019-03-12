@@ -19,7 +19,7 @@ class bst{
     char * descrip;
     char * relation;
 
-    int key;
+    int key = 0;
 
     bst * left;
     bst * right;
@@ -54,6 +54,8 @@ class compCon{
     int display_all(bst * root);
     int count_nodes(bst * root);
     int display_range_p(bst * root,char var1, char var2);
+    int file_in(bst * to_add); // reads data from file
+    int delete_all(bst *& root); // deletes everything 
 
     bool is_efficient(bst * root); // tests bst for efficiency
 

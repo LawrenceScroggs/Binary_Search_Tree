@@ -15,16 +15,6 @@ int main(){
 
   bool efficient = false;
 
-  char again = ' ';
-
-  while(again != 'n')
-  {
-    build.addNew(&to_add);
-    cout << "Would you like to add another? ";
-    cin >> again;
-    cin.ignore(100,'\n');
-  }
-
   build.display();
 
   height = build.get_height();
@@ -43,6 +33,8 @@ int main(){
     cout << "Tree is inefficient" << endl;
 
   build.display_range();
+
+
 
 
   return 0;
