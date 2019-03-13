@@ -1,3 +1,4 @@
+in order succesor@the next value needed to replace node@tree
 enqueue@when you enter into a CLL@CLL
 dequeue@when you remove from a CLL@CLL
 hash function@a function used to make a key for hash table@hash tables
@@ -13,7 +14,6 @@ peek@used to see the top of stack or first in queue@LLL
 big O@the efficiency of algorithm@all data types
 2-3 tree@a balanced tree that uses 1 - 2 data types@tree
 depth@the height of the tree@tree
-in order succesor@the next value needed to replace node@tree
 adjacency matrix@table which connects edges to other indexes of adjacency matrix@graphs
 complete graph@where every edge is connected@graphs
 edge@line connecting two nodes in graph@graphs

@@ -103,8 +103,9 @@ int compCon::remove(bst * to_find){
   else
     cout << "Removed succesfully" << endl << endl;
 
-  delete to_find->name;
+  delete [] to_find->name;
   to_find->name = NULL;
+
   return check;
 
 }
@@ -161,17 +162,23 @@ int compCon::remove_p(bst *& root, bst * to_find){
         else
         {
           bst * prev = root;
-          bst * current = root->right;
+          bst * current = root;
+          current = current->right;
           while(current->left)
           {
             prev = current;
             current = current->left;
           }
-          root->name = current->name;
+          root->name = new char[strlen(current->name) + 1];
+          strcpy(root->name,current->name);
+          root->descrip = new char[strlen(current->descrip)+1];
+          strcpy(root->descrip,current->descrip);
+          root->relation = new char[strlen(current->relation)+1];
+          strcpy(root->relation,current->relation);
           prev->left = current->right;
 
           delete current;
-
+         
           return 1;
         }
       }
@@ -253,11 +260,11 @@ void compCon::addNew(bst * to_add){
 
   insert(to_add);
 
-  delete to_add->name;
+  delete [] to_add->name;
   to_add->name = NULL;
-  delete to_add->descrip;
+  delete [] to_add->descrip;
   to_add->descrip = NULL;
-  delete to_add->relation;
+  delete [] to_add->relation;
   to_add->relation = NULL;
 
   return;
@@ -295,7 +302,14 @@ int compCon::insert_p(bst *& root,bst * to_add){
     root->key = getKey(to_add);
     root->left=root->right=NULL;
     ++count;
-    to_add = NULL;
+    delete [] to_add->name;
+    to_add->name = NULL;
+    delete [] to_add->relation;
+    to_add->relation = NULL;
+    delete [] to_add->descrip;
+    to_add->descrip = NULL;
+
+
     return count;
   }
   
@@ -308,6 +322,7 @@ int compCon::insert_p(bst *& root,bst * to_add){
   {
     return insert_p(root->right,to_add);
   }
+
   return count;
 }
 bst::bst(){
@@ -316,22 +331,20 @@ bst::bst(){
   descrip = NULL;
   relation = NULL;
 
+  left = NULL;
+  right = NULL;
+
 }
 bst::~bst(){
 
-  delete name;
-  name = NULL;
-  delete descrip;
-  descrip = NULL;
-  delete relation;
-  relation = NULL;
+  delete [] name;
+  delete [] descrip;
+  delete [] relation;
 
 }
-compCon::compCon(){
+compCon::compCon(bst to_add,bst to_find){
 
   root = NULL;
-
-  bst * to_add;
 
   file_in(to_add);
 
@@ -350,12 +363,20 @@ int compCon::delete_all(bst *& root){
     return 0;
   }
   value = delete_all(root->left) + delete_all(root->right);
+  delete [] root->name;
+  root->name = NULL;
+  delete [] root->descrip;
+  root->descrip = NULL;
+  delete [] root->relation;
+  root->relation = NULL;
   delete root;
   root = NULL;
+  delete to_add;
+  delete to_find;
 }
 //reads from file
-int compCon::file_in(bst * to_add){
-  
+int compCon::file_in(bst to_add){
+ 
   ifstream file_in;
   file_in.open("BST.txt");
 
@@ -372,28 +393,27 @@ int compCon::file_in(bst * to_add){
         return -1;
       }
 
-      to_add->name = new char[100];
-      file_in.get(to_add->name,100,'@');
+      to_add.name = new char[100];
+      file_in.get(to_add.name,100,'@');
       file_in.ignore(100,'@');
-      to_add->descrip = new char[500];
-      file_in.get(to_add->descrip,500,'@');
+      to_add.descrip = new char[500];
+      file_in.get(to_add.descrip,500,'@');
       file_in.ignore(500,'@');
-      to_add->relation = new char[100];
-      file_in.get(to_add->relation,100,'\n');
+      to_add.relation = new char[100];
+      file_in.get(to_add.relation,100,'\n');
       file_in.ignore(100,'\n');
-      to_add->key = getKey(to_add);
+      to_add.key = getKey(&to_add);
 
-      insert(to_add);
+      insert(&to_add);
 
-      delete to_add->name;
-      to_add->name = NULL;
-      delete to_add->relation;
-      to_add->relation = NULL;
-      delete to_add->descrip;
-      to_add->descrip = NULL;
+      delete to_add.name;
+      to_add.name = NULL;
+      delete to_add.relation;
+      to_add.relation = NULL;
+      delete to_add.descrip;
+      to_add.descrip = NULL;
     }
-
+  }
   file_in.clear();
   file_in.close();
-  }
 }

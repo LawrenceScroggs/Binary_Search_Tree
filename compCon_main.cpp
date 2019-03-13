@@ -9,11 +9,21 @@
 int main(){
 
   bst to_add,to_find;
-  compCon build;
+  compCon build(to_add,to_find);
 
   int height = 0;
 
+  char yn = ' ';
+
   bool efficient = false;
+
+/*  while(yn != 'n')
+  {
+    build.addNew(&to_add);
+    cout << "again: ";
+    cin >> yn;
+    cin.ignore(100,'\n');
+  }*/// used to add and test different trees
 
   build.display();
 
@@ -22,8 +32,6 @@ int main(){
   cout << "Height of tree: " << height << endl;
 
   build.remove(&to_find);
-
-  build.display();
 
   efficient = build.efficient();
 
@@ -34,6 +42,9 @@ int main(){
 
   build.display_range();
 
+  build.remove(&to_find);
+
+  build.display();
 
 
 

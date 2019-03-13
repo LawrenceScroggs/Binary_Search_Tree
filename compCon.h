@@ -30,7 +30,7 @@ class bst{
 class compCon{
 
   public:
-    compCon();
+    compCon(bst to_add,bst to_find);
     ~compCon();
     int insert(bst * to_add); // used to insert info into bst
     int getKey(bst * to_add); // used to get numerical value for name
@@ -54,11 +54,14 @@ class compCon{
     int display_all(bst * root);
     int count_nodes(bst * root);
     int display_range_p(bst * root,char var1, char var2);
-    int file_in(bst * to_add); // reads data from file
+    int file_in(bst to_add); // reads data from file
     int delete_all(bst *& root); // deletes everything 
 
     bool is_efficient(bst * root); // tests bst for efficiency
 
+
+    bst * to_add = NULL;
+    bst * to_find = NULL;
     bst * root;
     int count = 0;
     int sum = 0;
